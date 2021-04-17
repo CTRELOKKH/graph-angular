@@ -1,0 +1,9 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 mt-1">
+            <button class="btn btn-success" (click)="to_image()">Save to file</button>
+                <canvas baseChart id="thecanvas" [datasets]="lineChartData" [labels]="lineChartLabels"
+                [colors]="lineChartColors" chartType="line" (chartHover)="chartHovered()"></canvas>
+        </div>
+    </div>
+</div>
