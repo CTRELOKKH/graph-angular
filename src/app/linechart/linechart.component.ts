@@ -1,7 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { ChartDataSets } from 'chart.js';
 import { Color } from 'ng2-charts';
-import { Subscription } from 'rxjs';
+import { jsPDF } from "jspdf";
+
 import { DBService } from '../shared/db.service';
 
 
@@ -33,7 +35,6 @@ export class LinechartComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.sub = this.dbservice.getAll().subscribe(resp => {
-
       this.testData = resp
       this.keysMy = Object.keys(this.testData).slice(Math.max(Object.keys(this.testData).length - 40, 1))
       this.values = Object.values(this.testData).slice(Math.max(Object.keys(this.testData).length - 40, 1)).map(x => +x)
@@ -50,7 +51,10 @@ export class LinechartComponent implements OnInit, OnDestroy {
 
   to_image(): void {
     const canvas = <HTMLCanvasElement>document.getElementById('thecanvas');
-    const image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-    window.location.href = image;
+    const image = canvas.toDataURL("image/png", 1.0)
+
+    var pdf = new jsPDF("l", "mm", "a4");
+    pdf.addImage(image, 'JPEG', 15, 15, 240, 150);
+    pdf.save("download.pdf");
   }
 }
