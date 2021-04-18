@@ -5,6 +5,7 @@ import { Color } from 'ng2-charts';
 import { jsPDF } from "jspdf";
 
 import { DBService } from '../../shared/db.service';
+import { takeLast } from 'rxjs/operators';
 
 
 @Component({
@@ -35,11 +36,9 @@ export class LinechartComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
     this.sub = this.dbservice.getAll().subscribe(resp => {
-      this.testData = resp;
-      this.keysMy = Object.keys(this.testData).slice(Object.keys(this.testData).length - 40);
-      this.values = Object.values(this.testData).slice(Object.keys(this.testData).length - 40).map(x => +x);
+      this.keysMy = resp.map(res => res.date).slice(Object.keys(this.testData).length - 40);
+      this.values = resp.map(res => res.value).slice(Object.keys(this.testData).length - 40).map(x => +x);
 
       this.lineChartData = [
         { data: this.values, label: "BTC" },
