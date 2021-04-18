@@ -10,6 +10,6 @@ export class DBService {
     constructor(private http: HttpClient) { }
 
     getAll(): Observable<any> {
-        return this.http.get(`${environment.fbDbUrl}/btc.json`)
+        return this.http.get(`${environment.fbDbUrl}/btc.json`);
     }
 }
